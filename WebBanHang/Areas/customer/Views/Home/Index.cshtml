@@ -1,0 +1,125 @@
+﻿@model List<Product>
+@{ ViewData["Title"] = "Home Page"; }
+
+
+        
+<header class="bg-dark py-5 ">
+   <div class="row">
+        <div id="carouselExampleCaptions" class="carousel slide row-cols-md-5" data-ride="carousel" style="width:50%">
+           
+          
+                    <img src="images/products/header.jpg" class="d-block w-100" alt="...">
+                   
+             
+            </div>
+        <div id="carouselExampleCaptions" class="carousel slide row-cols-md-5" data-ride="carousel" style="width:50%">
+            <img src="images/products/header03.jpg" class="d-block w-100" alt="...">
+        </div>
+      
+
+
+    
+    </div>
+    
+</header>
+
+<br />
+ 
+<div class="container text-center" >
+
+    <h2 class="hd" style="font-size: 48px;
+        color: #fff;
+        text-shadow:
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 15px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 25px #ff00ff,
+        0 0 30px #ff00ff,
+        0 0 35px #ff00ff;">
+        Shopping
+    </h2>
+   
+</div>
+
+<section class="py-5" >
+     <form asp-action="Index" method="post">
+            <div class="form-inline">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <input name="textsearch" type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <button type="submit" class="btn btn-outline-warning">Tìm Kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    <div class="container px-4 px-lg-5 mt-5 bg-beig">
+        
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            @foreach (var p in Model)
+            {
+
+
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        @if (string.IsNullOrEmpty(p.ImageUrl))
+                        {
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        }
+                        else
+                        { <img class="card-img-top" src="/@p.ImageUrl" alt="..." />}
+
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">@p.Name</h5>
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill">
+
+                                    </div> <div class="bi-star-fill">
+
+                                    </div> <div class="bi-star-fill">
+
+                                    </div> <div class="bi-star-fill">
+
+                                    </div> <div class="bi-star-fill">
+
+                                    </div>
+                                    <div class="bi-star-fill"> </div>
+                                </div>
+                                <!-- Product price-->
+                                
+                                <span class="text-muted"> @Html.FormatValue(p.Price, "{0:##.##0}vnđ")</span>
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"> <a  class="AddToCart btn btn-warning mt-auto " data-productId="@p.Id" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@p.Id">Fashion </a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="container">
+            <ul class="pagination">
+                <li class="page-item" @(ViewBag.pageIndex == 1 ? "disabled" : "")>
+                    <a class="page-link" asp-action="Index" asp-route-page="1">&laquo;</a>
+                </li>
+                @for (var i = 1; i <= ViewBag.pageSum; i++)
+                {
+                    <li class="page-item" @(ViewBag.pageIndex == i ? "active" : "")>
+                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item" @(ViewBag.pageIndex == ViewBag.pageSum ? "disabled" : "")>
+                    <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.pageSum">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>

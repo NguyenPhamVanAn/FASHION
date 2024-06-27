@@ -1,0 +1,86 @@
+﻿@model List<Product>
+<partial name="_Notification" />
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2>LIST PRODUCT</h2>
+    </div>
+    <div class="col-md-6 text-right">
+        <a asp-action="Add" class="btn btn-outline-success">
+            <i class="bi bi-plus-circle-fill"></i> Add New
+
+        </a>
+
+
+    </div>
+    
+        <form asp-action="Index" method="post">
+            <div class="form-inline">
+                <div class="row">
+                    <div class="col-md-7 mb-2">
+                        <input name="textsearch" type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <div class="col-md-5 mb-2">
+                        <button type="submit" class="btn btn-outline-success">Tìm Kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+   
+
+       
+    
+</div >
+<table class="table table-bordered table-active text-center">
+    <thead>
+        <tr>
+            <th style="background-color:beige">Name</th>
+            <th style="background-color:beige"> Price</th>
+            
+            <th style="background-color:beige">Category</th>
+            <th style="background-color:beige">Image</th>
+            <th style="background-color:beige">Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr> 
+                <td>@a.Name</td>
+                <td>@a.Price</td>
+                <td>@a.Category.Name</td>
+                <td>
+                    @if (a.ImageUrl != null)
+                    {
+                        <img src="/@a.ImageUrl" style="width:100px" />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@a.Id" class="btn btn-outline-success">
+
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@a.Id" class=" btn btn-outline-dark">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div>
+    <ul class="pagination">
+        <li class="page-item @(ViewBag.PageIndex == 1 ? "disabled":"")">
+            <a class="page-link" asp-action="Index" asp-route-page="1">&laquo;</a>
+        </li>
+        @for (var i = 1; i <= ViewBag.PageSum; i++)
+        {
+            <li class="page-item @(ViewBag.PageIndex == i ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+            </li>
+        }
+        <li class="page-item @(ViewBag.PageIndex == @ViewBag.PageSum ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.PageSum">&raquo;</a>
+        </li>
+    </ul>
+</div>  
